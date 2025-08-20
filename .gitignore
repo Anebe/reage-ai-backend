@@ -38,3 +38,10 @@ out/
 
 ### Kotlin ###
 .kotlin
+
+### Minhas ###
+/data/
+*.p2
+
+
+/src/main/resources/secrets.yml

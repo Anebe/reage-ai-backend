@@ -1,49 +1,22 @@
-spring.application.name: danael-fernandes-react-manager
+spring.application.name: reage-ai
 
+spring.config:
+    import: secrets.yml
 
-spring:
-  datasource:
-    url: jdbc:h2:mem:testdb
-    driverClassName: org.h2.Driver
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    database-platform: org.hibernate.dialect.H2Dialect
-  security:
-    oauth2:
-      client:
-        registration:
-          youtube:
-            client-id: 699019128992-g6j1j04i9as96h0iek90286sccode84a.apps.googleusercontent.com
-            client-secret: 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
-            redirect-uri: "{baseUrl}/oauth2/callback/youtube"
-            provider: youtube
-            authorization-grant-type: authorization_code
-            scope:
-              - https://www.googleapis.com/auth/youtube.force-ssl
-        provider:
-          youtube:
-            authorization-uri: https://accounts.google.com/o/oauth2/auth
-            token-uri: https://oauth2.googleapis.com/token
+spring.profiles:
+    active: dev
 
-youtube:
+spring.security:
   oauth2:
-    client-id: 699019128992-g6j1j04i9as96h0iek90286sccode84a.apps.googleusercontent.com
-    client-secret: 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
-    redirect-uri: http://localhost:8080/oauth2/callback/youtube
-    authorization-grant-type: authorization_code
-    scopes: https://www.googleapis.com/auth/youtube.force-ssl
-    authorization-uri: https://accounts.google.com/o/oauth2/auth
-    token-uri: https://oauth2.googleapis.com/token
-  api-key: AIzaSyB-ZDIQqkh5_kXvcUFL_poOpmt6YLgDFzc
-
-jwt:
-  secret: EqGCf667/79WEeIJygP8ohL2ToslIJSvjwZqG2/BsBRMxjJFzFdb4JX7Y2ub+bpRuhvvW9CyFdiVBRHdmXx9oQ==
-
-
-
+    client:
+      registration:
+        keycloak:
+          client-id: ${keycloak.clients.reage-ai-realm.client-id}
+          client-secret: ${keycloak.clients.reage-ai-realm.client-secret}
+          scope: openid
+      provider:
+        keycloak:
+          issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
+    resourceserver:
+      jwt:
+        issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}

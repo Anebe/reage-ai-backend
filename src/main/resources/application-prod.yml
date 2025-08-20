@@ -1,0 +1,6 @@
+
+
+efibank:
+  client_id: ${efibank.prod.client_id}
+  client_secret: ${efibank.prod.client_secret}
+  certificate: ${efibank.prod.certificate}
