@@ -1,5 +1,6 @@
 package com.gabriel.danael_fernandes_react_manager
 
+import com.gabriel.danael_fernandes_react_manager.core.video.YoutubeClient
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -8,7 +9,7 @@ import java.net.URL
 @SpringBootTest
 class YoutubeClientApiIntegrationTest{
     @Autowired
-    lateinit var youtubeClientApi: YoutubeClientApi
+    lateinit var youtubeClientApi: YoutubeClient
 
 
     @Test

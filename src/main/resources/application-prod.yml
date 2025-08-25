@@ -4,3 +4,19 @@ efibank:
   client_id: ${efibank.prod.client_id}
   client_secret: ${efibank.prod.client_secret}
   certificate: ${efibank.prod.certificate}
+
+
+spring.security:
+  oauth2:
+    client:
+      registration:
+        keycloak:
+          client-id: ${keycloak.clients.reage-ai-realm.client-id}
+          client-secret: ${keycloak.clients.reage-ai-realm.client-secret}
+          scope: openid
+      provider:
+        keycloak:
+          issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
+    resourceserver:
+      jwt:
+        issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}

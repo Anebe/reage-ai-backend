@@ -41,7 +41,7 @@ out/
 
 ### Minhas ###
 /data/
-*.p2
+*.p12
 
-
+src/main/resources/data.sql
 /src/main/resources/secrets.yml

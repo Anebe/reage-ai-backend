@@ -1,6 +1,6 @@
 package com.gabriel.danael_fernandes_react_manager.database.entity
 
-import com.gabriel.danael_fernandes_react_manager.video.RuleType
+import com.gabriel.danael_fernandes_react_manager.core.rule_processor.RuleType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
