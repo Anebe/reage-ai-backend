@@ -5,18 +5,3 @@ spring.config:
 
 spring.profiles:
     active: dev
-
-spring.security:
-  oauth2:
-    client:
-      registration:
-        keycloak:
-          client-id: ${keycloak.clients.reage-ai-realm.client-id}
-          client-secret: ${keycloak.clients.reage-ai-realm.client-secret}
-          scope: openid
-      provider:
-        keycloak:
-          issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
-    resourceserver:
-      jwt:
-        issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}

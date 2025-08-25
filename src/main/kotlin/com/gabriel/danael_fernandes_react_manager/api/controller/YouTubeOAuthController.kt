@@ -1,28 +1,16 @@
 package com.gabriel.danael_fernandes_react_manager.api.controller
 
-import com.gabriel.danael_fernandes_react_manager.YoutubeClientApi
-import com.gabriel.danael_fernandes_react_manager.database.entity.OAuthCredential
-import com.gabriel.danael_fernandes_react_manager.database.entity.Provider
-import com.gabriel.danael_fernandes_react_manager.database.repository.ContentCreatorRepository
-import com.gabriel.danael_fernandes_react_manager.database.repository.OAuthCredentialRepository
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets
-import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse
-import com.google.api.client.http.javanet.NetHttpTransport
-import com.google.api.client.json.gson.GsonFactory
-import org.springframework.beans.factory.annotation.Value
+import com.gabriel.danael_fernandes_react_manager.core.video.YoutubeAuthorization
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import java.io.StringReader
-import java.time.Instant
 import java.util.UUID
 
 
 @RestController
 class YouTubeOAuthController(
-    private val youtube: YoutubeClientApi
+    private val youtube: YoutubeAuthorization
 ) {
 
     @GetMapping("/oauth2/callback/youtube")

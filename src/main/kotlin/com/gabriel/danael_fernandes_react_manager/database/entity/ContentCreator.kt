@@ -6,9 +6,8 @@ import jakarta.persistence.*
 data class ContentCreator(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
-
+    val fullname: String,
     @Column(unique = true)
     val username: String,
-
     val playlistId: String
 )

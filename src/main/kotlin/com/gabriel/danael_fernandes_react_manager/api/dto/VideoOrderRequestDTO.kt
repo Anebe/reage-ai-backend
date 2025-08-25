@@ -6,5 +6,4 @@ data class VideoOrderRequestDTO(
     val apelido: String,
     val link: URL,
     val mensagem: String,
-    val contentCreatorId: Long
 )

@@ -1,1 +1,1 @@
-rootProject.name = "danael-fernandes-react-manager"
+rootProject.name = "reage-ai-backend"
