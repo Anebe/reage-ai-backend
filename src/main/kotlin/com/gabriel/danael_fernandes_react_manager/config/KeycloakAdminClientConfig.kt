@@ -2,7 +2,7 @@ package com.gabriel.danael_fernandes_react_manager.config
 
 import com.gabriel.danael_fernandes_react_manager.core.authentication.Authentication
 import com.gabriel.danael_fernandes_react_manager.core.authentication.KeycloakAdminService
-import com.gabriel.danael_fernandes_react_manager.core.authentication.MockKeycloakAuthentication
+import com.gabriel.danael_fernandes_react_manager.core.authentication.MockAuthentication
 import org.keycloak.OAuth2Constants
 import org.keycloak.admin.client.Keycloak
 import org.keycloak.admin.client.KeycloakBuilder
@@ -43,7 +43,7 @@ class KeycloakAdminClientConfig(
     @Bean
     @Profile("dev")
     fun mockAuth(): Authentication{
-        return MockKeycloakAuthentication()
+        return MockAuthentication()
     }
 
     @Bean

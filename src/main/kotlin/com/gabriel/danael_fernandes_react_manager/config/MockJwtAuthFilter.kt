@@ -16,7 +16,7 @@ import java.time.Instant
 import java.util.*
 
 @Component
-@Profile("dev") // 👈 Este filtro só existirá no perfil "dev"
+@Profile("dev")
 class MockJwtAuthFilter : OncePerRequestFilter() {
 
     private val objectMapper = jacksonObjectMapper()

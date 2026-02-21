@@ -25,15 +25,14 @@ class WebSecurityConfig {
             .authorizeHttpRequests { requests ->
                 requests
                     .requestMatchers("/api/auth/**").permitAll()
-                    .requestMatchers("/h2-console/**").permitAll() // Permite acesso ao console H2
                     .requestMatchers("/api/webhook/**").permitAll()
+                    .requestMatchers("/api/suggest/{username}").permitAll()
+
                     .anyRequest().authenticated()
             }
             .cors(Customizer.withDefaults())
             .oauth2Login(Customizer.withDefaults())
             .oauth2ResourceServer { it.jwt(Customizer.withDefaults()) }
-            .csrf { it.disable() } // Para H2 Console
-            .headers { it.frameOptions { frameOp -> frameOp.disable() } } // Para H2 Console
 
         return http.build()
     }
@@ -53,8 +52,10 @@ class WebSecurityConfigTest {
                     .requestMatchers("/h2-console/**").permitAll() // Permite acesso ao console H2
                     .requestMatchers("/api/webhook/**").permitAll()
                     .requestMatchers("/api/suggest/{username}").permitAll()
-
-                    .anyRequest().authenticated()
+                    .requestMatchers("/api/content-creator/{username}/profile").permitAll()
+                    .requestMatchers("/pictures/**").permitAll()
+                    .requestMatchers("/**").permitAll()
+                    //.anyRequest().authenticated()
             }
             .addFilterBefore(mockJwtAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
 

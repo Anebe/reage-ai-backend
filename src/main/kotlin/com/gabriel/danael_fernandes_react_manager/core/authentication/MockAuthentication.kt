@@ -1,20 +1,17 @@
 package com.gabriel.danael_fernandes_react_manager.core.authentication
 
 import org.springframework.context.annotation.Profile
-import org.springframework.stereotype.Service
 import java.util.*
 
 
-@Profile("dev") // 👈 A mágica acontece aqui! Este bean só será criado no perfil "dev".
-class MockKeycloakAuthentication : Authentication {
+@Profile("dev")
+class MockAuthentication : Authentication {
 
-    // Nosso "banco de dados" em memória para usuários
     private val users = mutableMapOf<String, Pair<UserAuth, String>>() // username -> (UserAuth, password)
 
 
     override fun createUser(userAuth: UserAuthRegistration): UserAuth {
         if (users.containsKey(userAuth.username)) {
-            // No Keycloak real, seria um erro 409 Conflict
             throw IllegalStateException("Usuário '${userAuth.username}' já existe.")
         }
         val newUser = UserAuth(
@@ -29,10 +26,6 @@ class MockKeycloakAuthentication : Authentication {
     override fun findUser(username: String): UserAuth? {
         return users[username]?.first
     }
-
-    // Em MockKeycloakAuthentication.kt
-
-// ...
 
     override fun login(username: String, password: String): String {
         val userEntry = users[username]

@@ -5,11 +5,13 @@ import org.keycloak.admin.client.Keycloak
 import org.keycloak.representations.idm.CredentialRepresentation
 import org.keycloak.representations.idm.UserRepresentation
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 import java.io.InputStream
 import java.nio.charset.StandardCharsets
 
 
+@Profile("prod")
 class KeycloakAdminService(private val keycloak: Keycloak) : Authentication {
 
     @Value("\${keycloak.realm}")

@@ -10,8 +10,6 @@ data class CreatorContentResponse(
     val email: String,
     val bio: String = "bio",
     val avatar: String = "https://i.ytimg.com/vi/KS0rGkcR8A8/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLCxmMB0U9w1l-RDCJWG4yGe3GoegA",
-    val totalEarnings: Double = 0.0,
-    val totalSuggestions: Int = 0,
     val playlistLink: String
 ) {
     constructor(userInfo: UserAuth, contentCreator: ContentCreator) : this(

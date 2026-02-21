@@ -6,7 +6,6 @@ import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.gson.GsonFactory
 import org.springframework.stereotype.Component
 import java.time.Instant
-import java.util.*
 
 @Component
 class YoutubeAuthorization(
@@ -31,30 +30,29 @@ class YoutubeAuthorization(
         //.setApprovalPrompt("force") // Força o usuário a revisar as permissões toda vez (útil em dev)
         .build()
 
-    fun linkAuthorization(state : String): String{
+    fun linkAuthorization(): String{
         val authorizationUrl = flow.newAuthorizationUrl()
             .setRedirectUri(redirectUri)
-            .setState(state)
+            .setState((1L).toString())
             .build()
 
         return authorizationUrl
     }
 
-    fun saveCredentials(code: String, id: UUID){
-        val userOptional = credentialRepository.findById(id)
+    fun saveCredentials(code: String){
+        val credential = credentialRepository.getYoutubeOauth()
 
-        require(userOptional.isPresent)
 
         val tokenResponse = flow.newTokenRequest(code)
             .setRedirectUri(redirectUri)
             .execute()
 
-        userOptional.get().let {
+        credential.let {
             it.refreshToken = tokenResponse.refreshToken
             it.accessToken = tokenResponse.accessToken
             it.expiresAtInMiliSeconds = Instant.now().plusSeconds(tokenResponse.expiresInSeconds).toEpochMilli()
         }
 
-        credentialRepository.save(userOptional.get())
+        credentialRepository.save(credential)
     }
 }

@@ -9,5 +9,8 @@ data class ContentCreator(
     val fullname: String,
     @Column(unique = true)
     val username: String,
-    val playlistId: String
+    val playlistId: String,
+    val displayName: String = username,
+    val message: String = "",
+    var profilePictureFilename: String
 )

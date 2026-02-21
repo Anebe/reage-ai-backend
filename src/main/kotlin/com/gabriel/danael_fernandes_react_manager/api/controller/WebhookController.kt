@@ -23,7 +23,7 @@ data class PixRecebido(
     val valor: BigDecimal
 )
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/webhook")
 class PaymantController(
     private val contentCreatorRepository: ContentCreatorRepository,
     private val suggestRepository: SuggestRepository,
@@ -35,7 +35,7 @@ class PaymantController(
 ) {
 
     //TODO ao confirmar pagamento adicionar video a fila
-    @PostMapping("/webhook/pix")
+    @PostMapping("/pix")
     fun pixRecebido(@RequestBody str: String): ResponseEntity<Void> {
         //TODO melhorar o tratamento de entrada
         val payReceive = json.parseToJsonElement(str).jsonObject
@@ -65,7 +65,7 @@ class PaymantController(
         return ResponseEntity.ok().build()
     }
 
-    @GetMapping("/webhook/youtube")
+    @GetMapping("/youtube")
     fun oauth2Callback(
         @RequestParam code: String?,
         @RequestParam state: String?, // Seu user ID, que passamos no 'state'
@@ -81,8 +81,7 @@ class PaymantController(
             return ResponseEntity.badRequest().body("Estado (user ID) não recebido. Não é possível associar o token.")
         }
 
-        val id = UUID.fromString(state)
-        youtube.saveCredentials(code, id)
+        youtube.saveCredentials(code)
         return ResponseEntity.ok("Autorização do YouTube concluída com sucesso! Tokens salvos.")
     }
 }

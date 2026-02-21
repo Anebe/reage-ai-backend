@@ -1,10 +1,13 @@
 package com.gabriel.danael_fernandes_react_manager.api.controller
 
 import com.gabriel.danael_fernandes_react_manager.core.video.YoutubeAuthorization
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.net.URI
 import java.util.UUID
 
 
@@ -29,8 +32,20 @@ class YouTubeOAuthController(
             return ResponseEntity.badRequest().body("Estado (user ID) não recebido. Não é possível associar o token.")
         }
 
-        val id = UUID.fromString(state)
-        youtube.saveCredentials(code, id)
+        youtube.saveCredentials(code)
         return ResponseEntity.ok("Autorização do YouTube concluída com sucesso! Tokens salvos.")
+    }
+
+    @GetMapping("/oauth2/admin-permission")
+    fun adminPermission(): ResponseEntity<Void>{
+        var url = youtube.linkAuthorization()
+
+        val headers = HttpHeaders()
+        headers.location = URI.create(url)
+
+        return ResponseEntity
+            .status(HttpStatus.FOUND) // 302
+            .headers(headers)
+            .build()
     }
 }

@@ -1,6 +1,7 @@
 package com.gabriel.danael_fernandes_react_manager.core.video
 
 import com.gabriel.danael_fernandes_react_manager.database.repository.OAuthCredentialRepository
+import com.google.api.client.auth.oauth2.TokenResponseException
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
 import com.google.api.client.http.javanet.NetHttpTransport
@@ -8,12 +9,14 @@ import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.youtube.YouTube
 import org.springframework.stereotype.Component
 import java.time.Instant
+import java.util.*
 
 @Component
 class YoutubeBuilder(
     private val credentialRepository: OAuthCredentialRepository,
     private val clientId: String,
     private val clientSecret: String,
+    private val redirectUri: String,
     private val scopes: List<String>
 ){
 
@@ -34,8 +37,9 @@ class YoutubeBuilder(
         val credentialEntity = credentialRepository.findAll().firstOrNull()
 
         requireNotNull(credentialEntity)
-
-        if (Instant.ofEpochMilli(credentialEntity.expiresAtInMiliSeconds).isBefore(Instant.now().plusSeconds(60))) {
+        val expireAt = Instant.ofEpochMilli(credentialEntity.expiresAtInMiliSeconds)
+        val isExpired = Instant.now().isAfter(expireAt)
+        if (isExpired) {
             refreshTokenForUser()
         }
 
@@ -46,7 +50,6 @@ class YoutubeBuilder(
             .build()
             .setRefreshToken(credentialEntity.refreshToken)
             .setAccessToken(credentialEntity.accessToken)
-
         credential.refreshToken()
 
         credentialEntity.accessToken = credential.accessToken
@@ -85,8 +88,44 @@ class YoutubeBuilder(
             } else {
                 throw RuntimeException("Falha ao obter novo token de acesso com o refresh token para o usuário. Requer re-autorização.")
             }
-        } catch (e: Exception) {
+        }catch (e: TokenResponseException){
+            var error = e.details.error
+
+            if ("invalid_grant" == error) {
+                val authUrl = linkAuthorization(credentialEntity.id.toString())
+                throw RuntimeException("Erro ao Obter access token. Refresh token expirado ou revogado.")
+            }
+        }
+        catch (e: Exception) {
             throw RuntimeException("Erro ao atualizar o token do YouTube para o usuário: ${e.message}.", e)
         }
+
+    }
+
+
+    fun linkAuthorization(state : String): String{
+        val authorizationUrl = flow.newAuthorizationUrl()
+            .setRedirectUri(redirectUri)
+            .setState(state)
+            .build()
+
+        return authorizationUrl
+    }
+
+    fun saveCredentials(code: String, id: UUID){
+        val credential = credentialRepository.getYoutubeOauth()
+
+
+        val tokenResponse = flow.newTokenRequest(code)
+            .setRedirectUri(redirectUri)
+            .execute()
+
+        credential.let {
+            it.refreshToken = tokenResponse.refreshToken
+            it.accessToken = tokenResponse.accessToken
+            it.expiresAtInMiliSeconds = Instant.now().plusSeconds(tokenResponse.expiresInSeconds).toEpochMilli()
+        }
+
+        credentialRepository.save(credential)
     }
 }

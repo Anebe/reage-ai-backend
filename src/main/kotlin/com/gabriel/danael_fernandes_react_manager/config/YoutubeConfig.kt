@@ -29,7 +29,8 @@ class YoutubeConfig(
         credentialRepository = credential,
         clientSecret = clientSecret,
         scopes = scopes,
-        clientId = clientId
+        clientId = clientId,
+        redirectUri = redirectUri
     )
 
     @Bean

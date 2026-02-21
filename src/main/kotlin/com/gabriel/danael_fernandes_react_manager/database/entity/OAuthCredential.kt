@@ -6,16 +6,11 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import java.util.*
 
-enum class Provider(type: String){
-    YOUTUBE("youtube"),
-    TWITCH("twitch")
-}
 @Entity
 data class OAuthCredential(
     @Id
-    val id: UUID = UUID.randomUUID(),
+    val id: Long = 1,
     var accessToken: String,
     var refreshToken: String,
     var expiresAtInMiliSeconds: Long,
-    val type: Provider
 )

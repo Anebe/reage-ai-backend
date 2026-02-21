@@ -56,6 +56,11 @@ class SuggestionsController(
     private val pagamentoRepository: PagamentoRepository
 ) {
 
+    /*TODO como lidar com fila "cheia"(quando existe
+        espaço na fila, mas ele fica cheia por causa de pagamentos pendentes):
+        bloquear novas sugestão mas enviar mensagem de
+        "fila cheia por causa de pagamentos, tente novamente em X minutos"
+     */
     @PostMapping("/{username}")
     fun saveVideo(
         @PathVariable username: String,

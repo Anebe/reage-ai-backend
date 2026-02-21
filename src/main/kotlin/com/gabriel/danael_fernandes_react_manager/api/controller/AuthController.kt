@@ -3,6 +3,7 @@ package com.gabriel.danael_fernandes_react_manager.api.controller
 import com.gabriel.danael_fernandes_react_manager.api.dto.ContentCreatorRegisterDTO
 import com.gabriel.danael_fernandes_react_manager.core.authentication.Authentication
 import com.gabriel.danael_fernandes_react_manager.core.authentication.KeycloakAdminService
+import com.gabriel.danael_fernandes_react_manager.core.service.FileStorageService
 import com.gabriel.danael_fernandes_react_manager.core.video.YoutubeClient
 import com.gabriel.danael_fernandes_react_manager.database.entity.ContentCreator
 import com.gabriel.danael_fernandes_react_manager.database.repository.ContentCreatorRepository
@@ -31,7 +32,8 @@ data class TokenResponse(
 class AuthController(
     private val authentication: Authentication,
     private val youtube: YoutubeClient,
-    private val contentCreatorRepository: ContentCreatorRepository
+    private val contentCreatorRepository: ContentCreatorRepository,
+    private val file: FileStorageService
 ) {
 
     @PostMapping("/register")
@@ -42,7 +44,8 @@ class AuthController(
         val contCreator = ContentCreator(
             username = user.username,
             playlistId = id.playlistId,
-            fullname = user.fullName
+            fullname = user.fullName,
+            profilePictureFilename = file.store()
         )
         contentCreatorRepository.save(contCreator)
         return ResponseEntity.ok().build()
