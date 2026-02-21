@@ -92,7 +92,7 @@ class YoutubeBuilder(
             var error = e.details.error
 
             if ("invalid_grant" == error) {
-                val authUrl = linkAuthorization(credentialEntity.id.toString())
+                val authUrl = linkAuthorization()
                 throw RuntimeException("Erro ao Obter access token. Refresh token expirado ou revogado.")
             }
         }
@@ -103,16 +103,15 @@ class YoutubeBuilder(
     }
 
 
-    fun linkAuthorization(state : String): String{
+    fun linkAuthorization(): String{
         val authorizationUrl = flow.newAuthorizationUrl()
             .setRedirectUri(redirectUri)
-            .setState(state)
             .build()
 
         return authorizationUrl
     }
 
-    fun saveCredentials(code: String, id: UUID){
+    fun saveCredentials(code: String){
         val credential = credentialRepository.getYoutubeOauth()
 
 
