@@ -11,10 +11,9 @@ interface ManagerVideoPlataform {
 
     fun searchVideo(id: String): VideoInfo
     fun searchVideo(url: URL): VideoInfo
-
     fun createPlaylist(name: String): Playlist
-
     fun searchPlaylist(id: String): Playlist?
+    fun deletePlaylist(id: String)
 }
 
 interface Playlist {

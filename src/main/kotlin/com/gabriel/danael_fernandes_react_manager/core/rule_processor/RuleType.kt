@@ -1,8 +1,8 @@
 package com.gabriel.danael_fernandes_react_manager.core.rule_processor
 
 enum class RuleType {
-    MAX_VIDEO_LIMIT,
-    MAX_HOURS_LIMIT,
+    MAX_TOTAL_VIDEO,
+    MAX_TOTAL_HOURS,
     BLOCKED_CHANNELS,
     BLOCKED_TAGS,
     BLOCKED_SPECIFIC_VIDEO,

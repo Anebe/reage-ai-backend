@@ -35,7 +35,6 @@ class YoutubeAuthorization(
             .setRedirectUri(redirectUri)
             .setState((1L).toString())
             .build()
-
         return authorizationUrl
     }
 

@@ -5,9 +5,11 @@ import com.gabriel.danael_fernandes_react_manager.database.entity.OAuthCredentia
 import com.gabriel.danael_fernandes_react_manager.database.repository.OAuthCredentialRepository
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 
 
+@Profile("dev")
 @Component
 class GoogleOAuthInitializer(
     private val oAuthCredentialRepository: OAuthCredentialRepository,

@@ -31,7 +31,7 @@ class YoutubeBuilder(
         scopes
     )
         .setAccessType("offline") // Importante para obter o refresh token
-//        .setApprovalPrompt("force") // Força o usuário a revisar as permissões toda vez (útil em dev)
+        .setApprovalPrompt("force") // Força o usuário a revisar as permissões toda vez (útil em dev)
         .build()
     fun youtubeOauth(): YouTube {
         val credentialEntity = credentialRepository.findAll().firstOrNull()

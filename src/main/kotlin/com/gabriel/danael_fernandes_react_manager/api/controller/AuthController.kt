@@ -4,6 +4,7 @@ import com.gabriel.danael_fernandes_react_manager.api.dto.ContentCreatorRegister
 import com.gabriel.danael_fernandes_react_manager.core.authentication.Authentication
 import com.gabriel.danael_fernandes_react_manager.core.authentication.KeycloakAdminService
 import com.gabriel.danael_fernandes_react_manager.core.service.FileStorageService
+import com.gabriel.danael_fernandes_react_manager.core.video.ManagerVideoPlataform
 import com.gabriel.danael_fernandes_react_manager.core.video.YoutubeClient
 import com.gabriel.danael_fernandes_react_manager.database.entity.ContentCreator
 import com.gabriel.danael_fernandes_react_manager.database.repository.ContentCreatorRepository
@@ -31,7 +32,7 @@ data class TokenResponse(
 @RequestMapping("/api/auth")
 class AuthController(
     private val authentication: Authentication,
-    private val youtube: YoutubeClient,
+    private val youtube: ManagerVideoPlataform,
     private val contentCreatorRepository: ContentCreatorRepository,
     private val file: FileStorageService
 ) {
@@ -40,6 +41,7 @@ class AuthController(
     fun register(@RequestBody user: ContentCreatorRegisterDTO): ResponseEntity<Void>{
         //TODO ver os problemas usuarios repetido e tals
         authentication.createUser(user.to())
+
         val id = youtube.createPlaylist(user.username + " playlist")
         val contCreator = ContentCreator(
             username = user.username,

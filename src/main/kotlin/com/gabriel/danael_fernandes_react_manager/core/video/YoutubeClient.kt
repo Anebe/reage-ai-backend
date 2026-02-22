@@ -55,6 +55,7 @@ class YoutubeClient(
     }
 
     override fun createPlaylist(name: String): Playlist {
+
         val youtube = youtubeBuilder.youtubeOauth()
 
         val snippet = PlaylistSnippet().apply {
@@ -81,6 +82,12 @@ class YoutubeClient(
             null
         else
             PlaylistImp(youtube, playlist.id, this)
+    }
+
+    override fun deletePlaylist(id: String) {
+        val youtube = youtubeBuilder.youtubeOauth()
+
+        youtube.Playlists().delete(id).execute()
     }
 
     override fun searchVideo(url: URL): VideoInfo {
