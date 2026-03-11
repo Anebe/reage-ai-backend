@@ -1,6 +1,7 @@
 package com.gabriel.danael_fernandes_react_manager.core.authentication
 
 import org.springframework.context.annotation.Profile
+import org.springframework.security.authentication.BadCredentialsException
 import java.util.*
 
 
@@ -31,7 +32,7 @@ class MockAuthentication : Authentication {
         val userEntry = users[username]
 
         if (userEntry == null || userEntry.second != password) {
-            throw SecurityException("Credenciais inválidas para o usuário '$username'.")
+            throw BadCredentialsException("Credenciais inválidas para o usuário '$username'.")
         }
 
         // Criamos um payload JSON real para o nosso token falso

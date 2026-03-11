@@ -24,6 +24,7 @@ class JsonConfig {
     fun json(): Json = Json {
         serializersModule = SerializersModule {
             polymorphic(RuleInterface::class) {
+
                 subclass(DurationValidationRule::class)
                 subclass(FixedPriceRule::class)
             }

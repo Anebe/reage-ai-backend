@@ -53,7 +53,7 @@ class PaymantController(
                     val playlistId = suggestion.contentCreator.playlistId
                     val video = YoutubeUtil.extractVideoId(URL(suggestion.link))
                     requireNotNull(video)
-                    val playlist = youtubeClientApi.searchPlaylist(playlistId)
+                    val playlist = playlistId?.let { youtubeClientApi.searchPlaylist(it) }
                     playlist?.addVideo(video)
                     suggestion = suggestion.copy(status = SuggestStatus.ADICIONADO_FILA)
                     suggestRepository.save(suggestion)

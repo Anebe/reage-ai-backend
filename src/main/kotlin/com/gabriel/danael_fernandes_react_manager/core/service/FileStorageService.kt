@@ -52,5 +52,4 @@ class FileStorageService(
         return uniqueFilename
     }
 
-    // Você também pode adicionar métodos para carregar (load) e deletar (delete) arquivos aqui.
 }

@@ -42,10 +42,16 @@ class AuthController(
         //TODO ver os problemas usuarios repetido e tals
         authentication.createUser(user.to())
 
-        val id = youtube.createPlaylist(user.username + " playlist")
+        var id: String? = null
+        kotlin.runCatching {
+            youtube.createPlaylist(user.username + " playlist")
+        }.onSuccess {
+            id = it.playlistId
+        }
+
         val contCreator = ContentCreator(
             username = user.username,
-            playlistId = id.playlistId,
+            playlistId = id,
             fullname = user.fullName,
             profilePictureFilename = file.store()
         )

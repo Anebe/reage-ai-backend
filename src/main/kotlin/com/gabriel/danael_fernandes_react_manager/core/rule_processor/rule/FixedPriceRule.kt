@@ -17,4 +17,5 @@ class FixedPriceRule(@Contextual val amount: BigDecimal) : RuleInterface {
     override fun apply(videoInfo: VideoInfo, context: ResultVideoProcess) {
         context.price = amount
     }
+
 }

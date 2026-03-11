@@ -14,22 +14,19 @@ import org.springframework.stereotype.Component
 
 @Profile("dev")
 @Component
-class DeleteAllPlaylist(
+class OnSpringBootExiting(
     private val youtube: ManagerVideoPlataform,
     private val contentCreatorRepository: ContentCreatorRepository,
     private val oAuthCredentialRepository: OAuthCredentialRepository,
 ) {
 
     @PreDestroy
-    fun run(){
+    fun deleteAllPlaylist(){
         for (contentCreator in contentCreatorRepository.findAll()){
-            youtube.deletePlaylist(contentCreator.playlistId)
+            contentCreator.playlistId?.let { youtube.deletePlaylist(it) }
         }
     }
 
-    fun DeleteAllPlaylist(){
-
-    }
     @PreDestroy
     fun revokeToken() {
         val token: String = oAuthCredentialRepository.getYoutubeOauth().refreshToken
